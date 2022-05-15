@@ -28,8 +28,8 @@ public class RespositoresController {
 	}
 	
 	@RequestMapping(path = "/olduser", method = RequestMethod.GET)	
-	public List<GitHubRepository>getOldestUser(){
-		return buildObjects( repositoriesService.getOldestUser().getBody(), new User() );
+	public List<GitHubRepository>getOldestUser(@RequestParam Integer usersNumber){
+		return buildObjects( repositoriesService.getOldestUser( usersNumber ).getBody(), new User() );
 	}
 	
 	private List<GitHubRepository> buildObjects(String result, GitHubRepository repos){
@@ -44,7 +44,7 @@ public class RespositoresController {
 				repositories.add( getInstance(repos, node));
 			}
 		} catch (JsonProcessingException e) {
-			// I miss 
+			// I miss this implementation
 		}
 		return repositories;
 	}
@@ -59,7 +59,7 @@ public class RespositoresController {
 		}else if (repos instanceof User) {
 			((User)repos).setId(node.path("id").asText());
 			((User)repos).setLogin(node.path("login").asText());
-			((User)repos).setHtml_url(node.path("htlm_url").asText());
+			((User)repos).setHtml_url(node.path("html_url").asText());
 		}
 		return repos;
 	}
