@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telstra.codechallenge.decorators.ResponseDecorator;
+
 import com.telstra.codechallenge.decorators.ResponseImpl;
 import com.telstra.codechallenge.decorators.ResponseWithLocalSizeDecorator;
-import com.telstra.codechallenge.decorators.Responseable;
 
 @RestController
 public class GitRespositoryController {

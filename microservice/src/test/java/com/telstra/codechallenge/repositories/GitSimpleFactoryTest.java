@@ -2,22 +2,13 @@ package com.telstra.codechallenge.repositories;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.MultiValueMap;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telstra.codechallenge.repositories.GitRepository;
-import com.telstra.codechallenge.repositories.GitSimpleFactory;
-import com.telstra.codechallenge.repositories.GitUser;
 
 @RunWith(SpringRunner.class)
 public class GitSimpleFactoryTest {

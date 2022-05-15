@@ -3,8 +3,6 @@ package com.telstra.codechallenge.repositories;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -20,15 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.MultiValueMap;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telstra.codechallenge.repositories.GitOperable;
-import com.telstra.codechallenge.repositories.GitRepository;
-import com.telstra.codechallenge.repositories.GitRepositoryService;
-import com.telstra.codechallenge.repositories.GitRespositoryController;
-import com.telstra.codechallenge.repositories.GitUser;
+
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(GitRespositoryController.class)
