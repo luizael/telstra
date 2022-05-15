@@ -1,7 +1,14 @@
-package com.telstra.codechallenge.repositores;
+package com.telstra.codechallenge.repositories;
 
-public class Repository implements GitHubRepository{
+import java.io.Serializable;
+import java.util.Objects;
+
+public class GitRepository implements GitOperable, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String html_url;
 	private String watchers_count;
 	private String language;
@@ -38,7 +45,23 @@ public class Repository implements GitHubRepository{
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, html_url, language, name, watchers_count);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GitRepository other = (GitRepository) obj;
+		return Objects.equals(description, other.description) && Objects.equals(html_url, other.html_url)
+				&& Objects.equals(language, other.language) && Objects.equals(name, other.name)
+				&& Objects.equals(watchers_count, other.watchers_count);
+	}
 	
 	
-
 }

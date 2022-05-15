@@ -1,4 +1,4 @@
-package com.telstra.codechallenge.repositores;
+package com.telstra.codechallenge.repositories;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,53 +11,56 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-
 @Service
-public class RepositoriesService {
+public class GitRepositoryService {
 	
 	@Value("${git.hub.uri.repositories}")
 	private String gitHubEndpoint;
-	private RestTemplate restTemplate;
 	
-	public RepositoriesService(RestTemplate restTemplate) {
+	private RestTemplate restTemplate;
+	private StringBuilder stbQParameter;
+	private Map<String,String> params;
+	private HttpEntity<String> response;
+	
+	public GitRepositoryService(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
-		
 	}
 	
-	public HttpEntity<String> getRepositories(Integer repositoriesNumber) {
+	public HttpEntity<String> repositoriesSetParameter(Integer repositoriesNumber) {
 		String urlParams = "q={qParameters}&sort={sortValue}&order={orderValue}";
-		StringBuilder stbQParameter = new StringBuilder();
-		
+		stbQParameter = new StringBuilder();
 		stbQParameter.append("created:>2022-05-10");//last weekend
 		//ps: I didn't find that github parameter in github documentation to append with created key 
-		
-		Map<String,String> params = new HashMap<>();
+		params = new HashMap<>();
 		params.put("qParameters", stbQParameter.toString() );
 		params.put("sortValue", "starts");
 		params.put("orderValue", "desc");
-		 
-		return clientRequest("/repositories?", urlParams,params);	
+		response = clientSetHeader("/repositories?", urlParams, params);
+		return response;	
 	}
 	
-	public HttpEntity<String> getOldestUser(Integer usersNumber){
+	public HttpEntity<String> usersSetParameter(Integer usersNumber){
 		String urlParams = "q={qParameters}&sort={sortValue}&order={orderValue}";
-		StringBuilder stbQParameter = new StringBuilder();
-		
+		stbQParameter = new StringBuilder();
 		stbQParameter.append("followers:0");//number of followers
-		
-		Map<String,String> params = new HashMap<>();
+		params = new HashMap<>();
 		params.put("qParameters", stbQParameter.toString() );
 		params.put("sortValue", "joined");
 		params.put("orderValue", "asc");
-		
-		return clientRequest("/users?", urlParams, params);
+		response = clientSetHeader("/users?", urlParams, params);
+		return response;
 	}
 	
-	protected HttpEntity<String> clientRequest(String url, String urlParams, Map<String,String> params){
+	protected HttpEntity<String> clientSetHeader(String url, String urlParams, Map<String,String> params){
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", "application/vnd.github.preview");
 		HttpEntity<String> entity = new HttpEntity<>(headers);
-		HttpEntity<String> result = restTemplate.exchange(gitHubEndpoint + url + urlParams, HttpMethod.GET, entity, String.class, params);
-		return result;	
+		response = callGitHubApi( gitHubEndpoint + url + urlParams, entity, params );
+		return response;	
 	}
+	
+	protected HttpEntity<String> callGitHubApi(String url,HttpEntity<String> entity, Map<String,String> params){
+		response = restTemplate.exchange( url, HttpMethod.GET, entity, String.class, params);
+		return response;	
+	} 
 }
