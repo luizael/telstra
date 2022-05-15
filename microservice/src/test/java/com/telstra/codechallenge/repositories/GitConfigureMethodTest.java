@@ -2,6 +2,8 @@ package com.telstra.codechallenge.repositories;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +13,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
-public class GitSimpleFactoryTest {
+public class GitConfigureMethodTest {
 
 	@Autowired
-	private GitSimpleFactory factory;
+	private GitConfigureMethod factory;
 	
 	private ObjectMapper objMapper;
 	private StringBuilder stb;
@@ -36,5 +38,17 @@ public class GitSimpleFactoryTest {
 	public void testBuildObjectsRepository()throws JsonProcessingException {
 		GitRepository repo = ( GitRepository ) factory.createSimpleInstance(new GitRepository(), objMapper.readTree( stb.toString() ));
 		assertEquals(repo.getName(), "test");
+	}
+	
+	@Test
+	public void testBuildObjectsUserBuildResponse() throws JsonProcessingException {
+		List<GitOperable> result = factory.buildResponseJsonToObject( stb.toString(), new GitUser() );
+		assertEquals( ((GitUser)result.get(0)).getId(), 368568795);
+	}
+	
+	@Test
+	public void testBuildObjectsRepositoryBuildResponse()throws JsonProcessingException {
+		List<GitOperable> result = factory.buildResponseJsonToObject( stb.toString(), new GitRepository() );
+		assertEquals( ((GitRepository)result.get(0)).getName(), "test");
 	}
 }

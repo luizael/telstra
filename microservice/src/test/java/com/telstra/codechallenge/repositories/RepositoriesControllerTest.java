@@ -29,9 +29,7 @@ public class RepositoriesControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	private GitRespositoryController controller;	
-	
+
 	@MockBean
 	private GitRepositoryService repositoriesService;
 
@@ -72,16 +70,6 @@ public class RepositoriesControllerTest {
 		this.mockMvc.perform(get("/repositories")).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
-	@Test
-	public void testBuildObjectsUser() throws JsonProcessingException {
-		List<GitOperable> result = controller.buildResponseJsonToObject( stb.toString(), new GitUser() );
-		assertEquals( ((GitUser)result.get(0)).getId(), 368568795);
-	}
 	
-	@Test
-	public void testBuildObjectsRepository()throws JsonProcessingException {
-		List<GitOperable> result = controller.buildResponseJsonToObject( stb.toString(), new GitRepository() );
-		assertEquals( ((GitRepository)result.get(0)).getName(), "test");
-	}
 
 }
